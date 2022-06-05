@@ -12,6 +12,10 @@ const theme: EditorThemeClasses = {
     underline: 'editor-underline',
   },
   link: 'editor-link',
+  table: 'editor-table',
+  tableCell: 'editor-table-cell',
+  tableCellHeader: 'editor-table-cell-header',
+  tableRow: 'editor-table-row',
 }
 
 const editorConfig = {

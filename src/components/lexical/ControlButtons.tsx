@@ -1,5 +1,6 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/control-has-associated-label */
 /* eslint-disable react/jsx-props-no-spreading */
-import type { RangeSelection, TextNode, ElementNode } from 'lexical'
 import { useCallback, useEffect, useState } from 'react'
 import {
   $getSelection,
@@ -8,14 +9,13 @@ import {
   SELECTION_CHANGE_COMMAND,
   COMMAND_PRIORITY_CRITICAL,
 } from 'lexical'
+import { exportFile, importFile } from '@lexical/file'
 import { $isLinkNode, TOGGLE_LINK_COMMAND } from '@lexical/link'
-import { $isAtNodeEnd } from '@lexical/selection'
 import { mergeRegister } from '@lexical/utils'
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
 import {
   Button,
   ButtonGroup,
-  ButtonGroupProps,
   IconButton,
   Icon,
   Stack,
@@ -29,33 +29,41 @@ import {
   RiTableLine,
 } from 'react-icons/ri'
 
-function getSelectedNode(selection: RangeSelection): TextNode | ElementNode {
-  const { anchor } = selection
-  const { focus } = selection
-  const anchorNode = anchor.getNode()
-  const focusNode = focus.getNode()
-  if (anchorNode === focusNode) {
-    return anchorNode
-  }
-  const isBackward = selection.isBackward()
-  if (isBackward) {
-    return $isAtNodeEnd(focus) ? anchorNode : focusNode
-  }
-  return $isAtNodeEnd(anchor) ? focusNode : anchorNode
+// Helpers
+import getSelectedNode from './helpers/getSelectedNode'
+
+// Types
+interface ControlButtonsProps {
+  onOpenLinkModal: () => void
+  onOpenTableModal: () => void
 }
 
-export default function ControlButtons(props: ButtonGroupProps) {
+export default function ControlButtons(props: ControlButtonsProps) {
+  const { onOpenLinkModal, onOpenTableModal } = props
   const [editor] = useLexicalComposerContext()
   const [isLink, setIsLink] = useState(false)
   const [activeEditor, setActiveEditor] = useState(editor)
 
-  const insertLink = useCallback(() => {
+  const handleCreateLink = useCallback(() => {
     if (!isLink) {
       editor.dispatchCommand(TOGGLE_LINK_COMMAND, 'https://')
+      onOpenLinkModal()
     } else {
-      editor.dispatchCommand(TOGGLE_LINK_COMMAND, null)
+      onOpenLinkModal()
     }
-  }, [editor, isLink])
+  }, [editor, isLink, onOpenLinkModal])
+  const handleCreateTable = () => {
+    onOpenTableModal()
+  }
+  const handleDownloadFile = () => {
+    exportFile(editor, {
+      fileName: `${new Date().toISOString()}`,
+      source: '(C) Ningaro',
+    })
+  }
+  const handleUploadFile = () => {
+    importFile(editor)
+  }
 
   const ControlButtonsState = useCallback(() => {
     const selection = $getSelection()
@@ -85,7 +93,6 @@ export default function ControlButtons(props: ButtonGroupProps) {
       ),
     [editor, ControlButtonsState]
   )
-
   useEffect(
     () =>
       mergeRegister(
@@ -109,7 +116,7 @@ export default function ControlButtons(props: ButtonGroupProps) {
         isAttached
         variant="outline"
         justifyContent="center"
-        {...props}
+        w="100%"
       >
         <IconButton
           onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'bold')}
@@ -129,14 +136,12 @@ export default function ControlButtons(props: ButtonGroupProps) {
           icon={<Icon as={RiUnderline} />}
         />
         <IconButton
-          onClick={() =>
-            editor.dispatchCommand(TOGGLE_LINK_COMMAND, 'https://')
-          }
+          onClick={handleCreateLink}
           aria-label=""
           icon={<Icon as={RiLink} />}
         />
         <IconButton
-          onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'bold')}
+          onClick={handleCreateTable}
           aria-label=""
           icon={<Icon as={RiTableLine} />}
         />
@@ -148,13 +153,13 @@ export default function ControlButtons(props: ButtonGroupProps) {
         variant="outline"
         alignItems="center"
         justifyContent={{ base: 'center', lg: 'flex-end' }}
-        {...props}
+        w="100%"
       >
-        <Button colorScheme="green" mr="-px">
-          Сохранить
+        <Button onClick={handleDownloadFile} colorScheme="green" mr="-px">
+          Save
         </Button>
-        <Button colorScheme="blue" mr="-px">
-          Загрузить
+        <Button onClick={handleUploadFile} colorScheme="blue" mr="-px">
+          Upload
         </Button>
       </ButtonGroup>
     </Stack>

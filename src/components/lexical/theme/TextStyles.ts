@@ -18,8 +18,4 @@ const textStyles: Record<string, SystemStyleObject> = {
   },
 }
 
-/* bold: 'editor-bold',
-    italic: 'editor-italic',
-    underline: 'editor-underline', */
-
 export default textStyles
