@@ -19,8 +19,11 @@ jobs:
           
       - name: ⚡️ Enable Corepack
         run: corepack enable
+        
+      - name: 🎒 Install berry Yarn
+        run: yarn set version berry
 
-      - name: 👀 Get Yarn Version
+      - name: 👀 View Yarn Version
         run: echo yarn `yarn -v`
 
       - name: 🚚 Get yarn cache
