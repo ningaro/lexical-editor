@@ -1,7 +1,8 @@
 {
   "name": "lexical-editor",
-  "version": "0.1.0",
-  "private": true,
+  "version": "1.0.0",
+  "author": "Ningaro",
+  "license": "MIT",
   "dependencies": {
     "@chakra-ui/icons": "1.1.7",
     "@chakra-ui/react": "^2.1.2",
