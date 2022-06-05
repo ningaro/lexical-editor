@@ -3091,6 +3091,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@lexical/file@npm:^0.3.1":
+  version: 0.3.1
+  resolution: "@lexical/file@npm:0.3.1"
+  peerDependencies:
+    lexical: 0.3.1
+  checksum: 3095c74a714a1cb3c2c3684d9c7b3f0d2e3fc768af8659482ec3f6b8384805a78fd1da485939e6d76d9716d03e87f5a18c4c5f9f082309219bf066f2a7b6aae5
+  languageName: node
+  linkType: hard
+
 "@lexical/hashtag@npm:0.3.1":
   version: 0.3.1
   resolution: "@lexical/hashtag@npm:0.3.1"
@@ -9310,6 +9319,7 @@ __metadata:
     "@chakra-ui/react": ^2.1.2
     "@emotion/react": ^11
     "@emotion/styled": ^11
+    "@lexical/file": ^0.3.1
     "@lexical/link": ^0.3.1
     "@lexical/react": ^0.3.1
     "@lexical/selection": ^0.3.1
