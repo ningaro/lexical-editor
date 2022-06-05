@@ -16,7 +16,9 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '16.x'
-          cache: 'yarn'
+          
+      - name: ⚡️ Enable Corepack
+        run: corepack enable
 
       - name: 👀 Get Yarn Version
         run: echo yarn `yarn -v`
