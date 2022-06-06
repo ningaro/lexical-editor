@@ -11,8 +11,8 @@ const tableStyles: Record<string, SystemStyleObject> = {
     py: '6',
     px: '4',
     lineHeight: 5,
-    borderBottomWidth: '1px',
-    borderBottomStyle: 'solid',
+    borderWidth: '1px',
+    borderStyle: 'solid',
     borderColor: 'black',
   },
   '.editor-table-cell-header': {
